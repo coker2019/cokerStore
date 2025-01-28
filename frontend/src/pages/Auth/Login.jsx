@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoginMutation } from "../../redux/api/usersApiSlice";
 import { setCredentials } from "../../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
 
 
 
@@ -29,6 +30,19 @@ const Login = () => {
     }
   }, [navigate, redirect, userInfo]);
 
+  const submitHandler = async (e) => {
+    e.preventDefault()
+
+    try {
+      const res = await login({email, password}).unwrap()
+      console.log(res)
+      dispatch(setCredentials({...res}))
+
+    } catch (error) {
+      toast.error(error?.data?.message || error.message )
+    }
+  }
+
 
 
 
@@ -38,7 +52,7 @@ const Login = () => {
         <div className="mr-[4rem] mt-[5rem]">
           <h1 className="text-2xl font-semibold mb-4">Sign In</h1>
 
-          <form className="container w-[40rem]">
+          <form onSubmit={submitHandler} className="container w-[40rem]">
             <div className="my-[2rem]">
               <label
                 htmlFor="email"
@@ -81,14 +95,29 @@ const Login = () => {
               {isLoading ? "Signing In..." : "Sign In"}
             </button>
 
-            {isLoading && <loader />}  
+            {isLoading && < Loader />}  
            
           </form>
+
+          <div className="mt-43">
+            <p className="text-green-500">
+              New Customer ? {" "}
+              <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}
+              className="text-pink-500 hover:underline">Register
+              </Link>
+            </p>
+          </div>
 
 
 
 
           </div>
+
+          <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
+          alt=""
+          className="h-[65rem] w-[59%] xl:block md:hidden sm:hidden rounded-lg"
+        />
 
         </section>
     </div>
