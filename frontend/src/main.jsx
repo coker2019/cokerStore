@@ -23,6 +23,7 @@ import  CategoryList from "./pages/Admin/CategoryList.jsx";
 import ProductList from "./pages/Admin/ProductList";
 import AllProducts from "./pages/Admin/AllProducts";
 import ProductUpdate from "./pages/Admin/ProductUpdate";
+import Home from "./Home.jsx";
 
 import AdminRoute from "./pages/Admin/AdminRoute.jsx";
 
@@ -31,7 +32,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
+      <Route index={true} path="/" element={<Home />} />
+      
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>
